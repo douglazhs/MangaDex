@@ -12,11 +12,16 @@ let package = Package(
             name: "MangaDex",
             targets: ["MangaDex"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/Alamofire/Alamofire.git",
+            .upToNextMajor(from: "5.6.4")
+        )
+    ],
     targets: [
         .target(
             name: "MangaDex",
-            dependencies: [],
+            dependencies: ["Alamofire"],
             path: "Sources"
         ),
         .testTarget(
