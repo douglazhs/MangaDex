@@ -11,6 +11,10 @@ public struct MangaData: Codable {
     public var data: [Manga]
 }
 
+public struct MangaResult: Codable {
+    public var data: Manga
+}
+
 /// MangaDex Manga
 public struct Manga: Identifiable, Codable {
     public var id: String
@@ -35,9 +39,10 @@ public struct Attributes: Codable {
 public struct Languages: Codable {
     public var en: String?
     public var ptBr: String?
+    public var jaRo: String?
     
-    private enum CodingKeys: String, CodingKey {
-        case en, ptBr = "pt-br"
+    enum CodingKeys: String, CodingKey {
+        case en = "en", ptBr = "pt-br", jaRo = "ja-ro"
     }
 }
 

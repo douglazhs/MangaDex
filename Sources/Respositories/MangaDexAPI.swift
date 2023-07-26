@@ -38,7 +38,13 @@ public protocol MangaDexAPIProtocol {
     ///   - name: Manga name
     ///   - params: Request parameters
     ///   - completion: Mangas
-    func getByName(name: String, params: [String : Any], completion: @escaping (Result<MangaData,Error>) -> Void)
+    func getByName(_ name: String, params: [String : Any], completion: @escaping (Result<MangaData,Error>) -> Void)
+    
+    /// Get manga by id
+    /// - Parameters:
+    ///   - id: Manga name
+    ///   - completion: Mangas
+    func getById(_ id: String, completion: @escaping (Result<MangaResult,Error>) -> Void)
 }
 
 public class MangaDexAPI: BaseAPI<MangaDexNetworking>, MangaDexAPIProtocol {
@@ -76,13 +82,23 @@ public class MangaDexAPI: BaseAPI<MangaDexNetworking>, MangaDexAPIProtocol {
     }
     
     public func getByName(
-        name: String,
+        _ name: String,
         params: [String : Any],
         completion: @escaping (Result<MangaData,Error>) -> Void
     ) {
         self.fetchData(
             target: .getByName(name, params: params),
             responseClass: MangaData.self
+        ) { completion($0) }
+    }
+    
+    public func getById(
+        _ id: String,
+        completion: @escaping (Result<MangaResult,Error>) -> Void
+    ) {
+        self.fetchData(
+            target: .getById(id),
+            responseClass: MangaResult.self
         ) { completion($0) }
     }
     

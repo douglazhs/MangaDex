@@ -12,7 +12,7 @@ public struct ChapterResourceResult: Codable {
 }
 
 /// MangaDex chapter resource
-public struct ChapterResource: Equatable, Hashable, Codable {
+public struct ChapterResource: Hashable, Codable {
     public var hash: String?
     public var data: [String]?
     public var dataSaver: [String]?
@@ -23,14 +23,20 @@ public struct ChapterInfoResult: Codable {
 }
 
 /// MangaDex chapter
-public struct Chapter: Identifiable, Equatable, Codable {
-    public static func == (lhs: Chapter, rhs: Chapter) -> Bool {
-        lhs.id == rhs.id
-    }
+public struct Chapter: Identifiable, Hashable, Codable {
+    public func hash(
+        into hasher:
+        inout Hasher
+    ) { }
+    public static func == (
+        lhs: Chapter,
+        rhs: Chapter
+    ) -> Bool { lhs.id == rhs.id }
     
     public var id: String?
     public var attributes: ChapterAttributes?
     public var relationships: [ChapterRelationships]?
+    
 }
 
 public struct ChapterAttributes: Codable {

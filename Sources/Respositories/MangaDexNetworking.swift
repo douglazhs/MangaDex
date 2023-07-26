@@ -30,17 +30,23 @@ extension MangaDexNetworking: TargetType {
     
     public var path: String {
         switch self {
-        case .getRandom(_): return "/manga?includes[]=cover_art&includes[]=author&includes[]=artist"
-        case .getById(let id): return "/manga/\(id)?includes[]=author&includes[]=artist&includes[]=cover_art"
-        case .getByName(let name, _): return "/manga?title=\(name)&includes[]=cover_art"
-        case .cover(let id, let fileName): return "/covers/\(id)/\(fileName)"
-        case .feed(let id, _): return "/manga/\(id)/feed?includes[]=scanlation_group"
-        case .chapter(let id): return "/at-home/server/\(id)"
-        case .chapterImage(
-            let quality,
-            let hash,
-            let fileName
-        ): return "/\(quality.rawValue)/\(hash)/\(fileName)"
+        case .getRandom(_):
+            return "/manga?includes[]=cover_art&includes[]=author&includes[]=artist"
+        case .getById(let id):
+            return "/manga/\(id)?includes[]=author&includes[]=artist&includes[]=cover_art"
+        case .getByName(let name, _):
+            let convertedQuery = name.replacingOccurrences(of: " ", with: "%20")
+            return "/manga?title=\(convertedQuery)&includes[]=cover_art&includes[]=author"
+        case .cover(let id, let fileName):
+            return "/covers/\(id)/\(fileName)"
+        case .feed(let id, _):
+            return "/manga/\(id)/feed?includes[]=scanlation_group"
+        case .chapter(let id):
+            return "/at-home/server/\(id)"
+        case .chapterImage(let quality,
+                           let hash,
+                           let fileName):
+            return "/\(quality.rawValue)/\(hash)/\(fileName)"
         }
     }
     
