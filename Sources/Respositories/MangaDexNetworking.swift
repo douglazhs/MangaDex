@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 public enum MangaDexNetworking {
-    case getRandom([String : Any])
+    case getRandom(params: [String : Any], offset: Int)
     case getById(String)
     case getByName(String, params: [String : Any])
     case cover(id: String, fileName: String)
@@ -30,8 +30,8 @@ extension MangaDexNetworking: TargetType {
     
     public var path: String {
         switch self {
-        case .getRandom(_):
-            return "/manga?includes[]=cover_art&includes[]=author&includes[]=artist"
+        case .getRandom(_, let offset):
+            return "/manga?includes[]=cover_art&includes[]=author&includes[]=artist&offset=\(offset)"
         case .getById(let id):
             return "/manga/\(id)?includes[]=author&includes[]=artist&includes[]=cover_art"
         case .getByName(let name, _):
@@ -54,7 +54,7 @@ extension MangaDexNetworking: TargetType {
     
     public var task: TaskElement {
         switch self {
-        case .getRandom(let params), .feed(_, params: let params), .getByName(_, params: let params):
+        case .getRandom(let params, _), .feed(_, params: let params), .getByName(_, params: let params):
             return .requestParameters(
                 parameters: params,
                 encoding: URLEncoding(arrayEncoding: .noBrackets)

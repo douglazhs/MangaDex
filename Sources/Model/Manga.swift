@@ -16,7 +16,13 @@ public struct MangaResult: Codable {
 }
 
 /// MangaDex Manga
-public struct Manga: Identifiable, Codable {
+public struct Manga: Identifiable, Hashable, Codable {
+    public static func == (lhs: Manga, rhs: Manga) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) { }
+    
     public var id: String
     public var type: String?
     public var attributes: Attributes?
@@ -26,6 +32,8 @@ public struct Manga: Identifiable, Codable {
 public struct Attributes: Codable {
     public var title: Languages?
     public var description: Languages?
+    public var links: MangaLinks?
+    public var originalLanguage: String?
     public var publicationDemographic: String?
     public var status: String?
     public var year: Int?
@@ -34,6 +42,10 @@ public struct Attributes: Codable {
     public var state: String?
     public var updatedAt: String?
     public var availableTranslatedLanguages: [String?]?
+}
+
+public struct MangaLinks: Codable {
+    public var al: String?
 }
 
 public struct Languages: Codable {

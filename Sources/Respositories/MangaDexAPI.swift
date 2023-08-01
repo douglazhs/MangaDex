@@ -18,7 +18,7 @@ public protocol MangaDexAPIProtocol {
     /// Get random manga
     /// - Parameter completion: Request Result
     /// - Parameter params: Request parameters
-    func getRandomManga(params: [String: Any], completion: @escaping (Result<MangaData, Error>) -> Void)
+    func getRandomManga(params: [String: Any], offset: Int, completion: @escaping (Result<MangaData, Error>) -> Void)
     
     /// Get manga feed
     /// - Parameters:
@@ -52,10 +52,14 @@ public class MangaDexAPI: BaseAPI<MangaDexNetworking>, MangaDexAPIProtocol {
     
     public func getRandomManga(
         params: [String : Any],
+        offset: Int = 0,
         completion: @escaping (Result<MangaData, Error>) -> Void
     ) {
         self.fetchData(
-            target: .getRandom(params),
+            target: .getRandom(
+                params: params,
+                offset: offset
+            ),
             responseClass: MangaData.self
         ) { completion($0) }
     }

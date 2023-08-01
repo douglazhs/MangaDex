@@ -20,6 +20,7 @@ public struct ChapterResource: Hashable, Codable {
 
 public struct ChapterInfoResult: Codable {
     public var data: [Chapter]?
+    public var total: Int?
 }
 
 /// MangaDex chapter
@@ -28,6 +29,7 @@ public struct Chapter: Identifiable, Hashable, Codable {
         into hasher:
         inout Hasher
     ) { }
+    
     public static func == (
         lhs: Chapter,
         rhs: Chapter

@@ -15,6 +15,14 @@ public protocol MangaHelpers {
     /// - Returns: Value associated to the key
     func getTag(_ key: String, of manga: Manga) -> String?
     
+    
+    /// Get tags releated to the key
+    /// - Parameters:
+    ///   - key: Tag key
+    ///   - manga: Current manga
+    /// - Returns: Values associated to the key
+    func getTags(with key: String, of manga: Manga) -> [String]?
+    
     /// Get a manga relationship value of a key
     /// - Parameters:
     ///   - key: Object key
@@ -32,7 +40,7 @@ public protocol MangaHelpers {
     /// Convert the manga genres in one string
     /// - Parameter manga: Current manga
     /// - Returns: Converted string with all genres
-    func getGenres(of manga: Manga) -> String
+    func getGenres(of manga: Manga) -> [String]
     
     /// Get cover art file name
     /// - Parameter manga: Current manga
@@ -49,10 +57,17 @@ public extension MangaHelpers {
     func getTag(_ key: String, of manga: Manga) -> String? {
         guard let tags = manga.attributes?.tags,
               let tag = tags.first(
-                where: {( $0.attributes?.name?.en ?? "").contains(key )}
+                where: {($0.attributes?.name?.en ?? "").contains(key)}
               )
         else { return nil }
         return tag.id
+    }
+    
+    func getTags(with key: String, of manga: Manga) -> [String]? {
+        guard let tags = manga.attributes?.tags?.filter({ $0.attributes?.group == key }) else {
+            return nil
+        }
+        return tags.map { $0.attributes?.name?.en ?? "" }
     }
     
     func relationship(_ key: String, with manga: Manga) -> String {
@@ -69,13 +84,13 @@ public extension MangaHelpers {
         return entity.attributes?.name ?? ""
     }
 
-    func getGenres(of manga: Manga) -> String {
-        guard let tags = manga.attributes?.tags else { return "" }
+    func getGenres(of manga: Manga) -> [String] {
+        guard let tags = manga.attributes?.tags else { return [] }
         let genres = tags.filter {
             $0.attributes?.group ?? "" == "theme" ||
             $0.attributes?.group ?? "" == "genre"
         }
-        return genres.compactMap { $0.attributes?.name?.en ?? "" }.joined(separator: ", ")
+        return genres.compactMap { $0.attributes?.name?.en ?? "" }
     }
 
     func imgFileName(of manga: Manga) -> String {
