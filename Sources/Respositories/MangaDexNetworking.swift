@@ -36,7 +36,7 @@ extension MangaDexNetworking: TargetType {
             return "/manga/\(id)?includes[]=author&includes[]=artist&includes[]=cover_art"
         case .getByName(let name, _):
             let convertedQuery = name.replacingOccurrences(of: " ", with: "%20")
-            return "/manga?title=\(convertedQuery)&includes[]=cover_art&includes[]=author"
+            return "/manga?title=\(convertedQuery)&includes[]=cover_art&includes[]=author&includes[]=artist"
         case .cover(let id, let fileName):
             return "/covers/\(id)/\(fileName)"
         case .feed(let id, _):
