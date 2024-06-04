@@ -41,10 +41,17 @@ public protocol MangaHelpers {
     /// - Returns: Converted string with all genres
     func getGenres(of manga: Manga) -> [String]
     
-    /// Get cover art file name
+    /// Get cover art file name of manga
     /// - Parameter manga: Current manga
+    /// - Parameter quality: Cover quality
     /// - Returns: Cover art file name
-    func imgFileName(of manga: Manga) -> String
+    func imgFileName(of manga: Manga, quality: String) -> String
+    
+    /// Get cover art file name of cover
+    /// - Parameter cover: Current cover
+    /// - Parameter quality: Cover quality
+    /// - Returns: Cover art file name
+    func imgFileName(of cover: Cover, quality: String) -> String
     
     /// Unweaps manga title
     /// - Parameter manga: Current manga
@@ -92,13 +99,20 @@ public extension MangaHelpers {
         return genres.compactMap { $0.attributes?.name?.en ?? "" }
     }
 
-    func imgFileName(of manga: Manga) -> String {
+    func imgFileName(of manga: Manga, quality: String) -> String {
         guard let cover = manga.relationships?.first(where: {
             $0.type == "cover_art"
         }), let fileName = cover.attributes?.fileName else {
             return ""
         }
-        return fileName
+        return fileName + quality
+    }
+    
+    func imgFileName(of cover: Cover, quality: String) -> String {
+        guard let fileName = cover.attributes.fileName else {
+            return ""
+        }
+        return fileName + quality
     }
     
     func unwrapTitle(of manga: Manga) -> String {

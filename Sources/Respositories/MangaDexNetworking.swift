@@ -13,6 +13,7 @@ public enum MangaDexNetworking {
     case getById(String)
     case getByName(String, params: [String : Any])
     case cover(id: String, fileName: String)
+    case coverList(id: String)
     case feed(id: String, params: [String : Any])
     case chapter(String)
     case chapterImage(quality: DataQuality, hash: String, fileName: String)
@@ -38,6 +39,8 @@ extension MangaDexNetworking: TargetType {
             return "/manga?title=\(name)&includes[]=cover_art&includes[]=author&includes[]=artist"
         case .cover(let id, let fileName):
             return "/covers/\(id)/\(fileName)"
+        case .coverList(let id):
+            return "/cover?manga[]=\(id)&order[volume]=asc&limit=100"
         case .feed(let id, _):
             return "/manga/\(id)/feed?includes[]=scanlation_group"
         case .chapter(let id):
