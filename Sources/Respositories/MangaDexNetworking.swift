@@ -40,7 +40,7 @@ extension MangaDexNetworking: TargetType {
         case .cover(let id, let fileName):
             return "/covers/\(id)/\(fileName)"
         case .coverList(let id):
-            return "/cover?manga[]=\(id)&order[volume]=asc&limit=100"
+            return "/cover?manga[]=\(id)&order[volume]=desc&limit=200"
         case .feed(let id, _):
             return "/manga/\(id)/feed?includes[]=scanlation_group"
         case .chapter(let id):
