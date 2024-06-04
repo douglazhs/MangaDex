@@ -15,7 +15,6 @@ public protocol MangaHelpers {
     /// - Returns: Value associated to the key
     func getTag(_ key: String, of manga: Manga) -> String?
     
-    
     /// Get tags releated to the key
     /// - Parameters:
     ///   - key: Tag key

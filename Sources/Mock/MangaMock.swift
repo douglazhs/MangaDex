@@ -17,10 +17,7 @@ public class MangaMock {
         type: "manga",
         attributes: Attributes(
             title: Languages(en: "Jujutsu Kaisen"),
-            description: Languages(
-                en: "Yuuji is a genius at track and field. But he has zero interest running around in circles, he's happy as a clam in the Occult Research Club. Although he's only in the club for kicks, things get serious when a real spirit shows up at school! Life's about to get really strange in Sugisawa Town #3 High School!",
-                ptBr: "Itadori Yuuji, um estudante do colegial com uma capacidade física única, tem como rotina visitar seu avô que está hospitalizado. Porém, um dia, o selo de um \"objeto amaldiçoado\" escondido em sua escola é rompido, fazendo surgir criaturas assustadoras. Para salvar seus colegas ele parte em direção ao colégio, quando algo inesperado acontece...!"
-            ),
+            description: ["en":"Yuuji is a genius at track and field. But he has zero interest running around in circles, he's happy as a clam in the Occult Research Club. Although he's only in the club for kicks, things get serious when a real spirit shows up at school! Life's about to get really strange in Sugisawa Town #3 High School!"],
             links: MangaLinks(al: "101517"),
             originalLanguage: "ja",
             publicationDemographic: "shounen",

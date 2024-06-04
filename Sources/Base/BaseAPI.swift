@@ -44,23 +44,10 @@ public class BaseAPI<T: TargetType> {
             headers: headers
         )
         .validate(statusCode: 200..<500)
-        .responseJSON { response in
+        .responseDecodable(of: M.self) { response in
             switch response.result {
-            case .success(_):
-                do {
-                    let jsonResponse = try response.result.get()
-                    let theJSONData = try JSONSerialization.data(
-                        withJSONObject: jsonResponse,
-                        options: []
-                    )
-                    let responseObj = try JSONDecoder().decode(
-                        M.self,
-                        from: theJSONData
-                    )
-                    completion(.success(responseObj))
-                } catch let error {
-                    completion(.failure(error))
-                }
+            case .success(let objects):
+                completion(.success(objects))
             case .failure(let error): completion(.failure(error))
             }
         }

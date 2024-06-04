@@ -31,7 +31,8 @@ public struct Manga: Identifiable, Hashable, Codable {
 
 public struct Attributes: Codable {
     public var title: Languages?
-    public var description: Languages?
+    public var altTitles: [[String:String]]?
+    public var description: [String:String]?
     public var links: MangaLinks?
     public var originalLanguage: String?
     public var publicationDemographic: String?
