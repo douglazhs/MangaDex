@@ -13,7 +13,7 @@ public protocol MangaHelpers {
     ///   - key: Tag key
     ///   - manga: Current manga
     /// - Returns: Value associated to the key
-    func getTag(_ key: String, of manga: Manga) -> String?
+    func getTag(_ key: MangaHelpersKeys.Tag, of manga: Manga) -> String?
     
     /// Get tags releated to the key
     /// - Parameters:
@@ -27,14 +27,14 @@ public protocol MangaHelpers {
     ///   - key: Object key
     ///   - manga: Current manga
     /// - Returns: Value associated to the key
-    func relationship(_ key: String, with manga: Manga) -> String
+    func relationship(_ key: MangaHelpersKeys.Relationship, with manga: Manga) -> String
     
     /// Get a chapter relationship value of a key
     /// - Parameters:
     ///   - key: Object key
     ///   - chapter: Current chapter
     /// - Returns: Value associated to the key
-    func relationship(_ key: String, with chapter: Chapter) -> String
+    func relationship(_ key: MangaHelpersKeys.Relationship, with chapter: Chapter) -> String
     
     /// Convert the manga genres in one string
     /// - Parameter manga: Current manga
@@ -60,10 +60,10 @@ public protocol MangaHelpers {
 }
 
 public extension MangaHelpers {
-    func getTag(_ key: String, of manga: Manga) -> String? {
+    func getTag(_ key: MangaHelpersKeys.Tag, of manga: Manga) -> String? {
         guard let tags = manga.attributes?.tags,
               let tag = tags.first(
-                where: {($0.attributes?.name?.en ?? "").contains(key)}
+                where: {($0.attributes?.name?.en ?? "").contains(key.rawValue)}
               )
         else { return nil }
         return tag.id
@@ -76,16 +76,16 @@ public extension MangaHelpers {
         return tags.map { $0.attributes?.name?.en ?? "" }
     }
     
-    func relationship(_ key: String, with manga: Manga) -> String {
+    func relationship(_ key: MangaHelpersKeys.Relationship, with manga: Manga) -> String {
         guard let relationships = manga.relationships,
-              let entity = relationships.first(where: { $0.type == key })
+              let entity = relationships.first(where: { $0.type == key.rawValue })
         else { return "" }
         return entity.attributes?.name ?? ""
     }
 
-    func relationship(_ key: String, with chapter: Chapter) -> String {
+    func relationship(_ key: MangaHelpersKeys.Relationship, with chapter: Chapter) -> String {
         guard let relationships = chapter.relationships,
-              let entity = relationships.first(where: { $0.type == key })
+              let entity = relationships.first(where: { $0.type == key.rawValue })
         else { return "" }
         return entity.attributes?.name ?? ""
     }
@@ -93,15 +93,15 @@ public extension MangaHelpers {
     func getGenres(of manga: Manga) -> [String] {
         guard let tags = manga.attributes?.tags else { return [] }
         let genres = tags.filter {
-            $0.attributes?.group ?? "" == "theme" ||
-            $0.attributes?.group ?? "" == "genre"
+            $0.attributes?.group ?? "" == MangaHelpersKeys.theme.rawValue ||
+            $0.attributes?.group ?? "" == MangaHelpersKeys.genre.rawValue
         }
         return genres.compactMap { $0.attributes?.name?.en ?? "" }
     }
 
     func imgFileName(of manga: Manga, quality: String) -> String {
         guard let cover = manga.relationships?.first(where: {
-            $0.type == "cover_art"
+            $0.type == MangaHelpersKeys.Relationship.coverArt.rawValue
         }), let fileName = cover.attributes?.fileName else {
             return ""
         }
